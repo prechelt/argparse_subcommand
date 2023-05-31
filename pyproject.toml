@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "argparse_subcommand"
+version = "1.0"
+description = "structure and simplify subcommand handling with argparse"
+license = "LICENSE"
+authors = ["Lutz Prechelt"]
+readme = "README.md"
+homepage = "https://github.com/prechelt/argparse_subcommand"
+repository = "https://github.com/prechelt/argparse_subcommand"
+keywords = ["argparse"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+packages = [
+    { include = "*.py" },
+]
+include = ["README.md", "LICENSE", "pyproject.toml"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+# for  poetry publish use
+# export POETRY_HTTP_BASIC_PYPI_USERNAME=<username>
+# export POETRY_HTTP_BASIC_PYPI_PASSWORD=<password>
