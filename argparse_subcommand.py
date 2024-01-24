@@ -42,14 +42,14 @@ class ArgumentParser(argparse.ArgumentParser):
                               ('add_arguments', functiontype))
             if self._misses_any_of(module, required_attrs):
                 if strict:
-                    print(f"{module_name} is not a proper subcommand module")
+                    _printerr(f"{module_name} is not a proper subcommand module")
                     sys.exit(1)
                 else:
                     if trace:
-                        print(f"'{module_fullname}' is not a subcommand module")
+                        _printerr(f"'{module_fullname}' is not a subcommand module")
                     continue  # silently skip modules that are not proper subcommand modules
             if trace:
-                print(f"'{module_fullname}' found")
+                _printerr(f"'{module_fullname}' found")
             # ----- configure subcommand:
             self.subcommand_modules[subcommand_name] = module
             aliases = module.aliases if hasattr(module, 'aliases') else []
@@ -61,7 +61,7 @@ class ArgumentParser(argparse.ArgumentParser):
 
     def scan_submodules(self, modulename: str, strict=False, trace=False):
         if trace:
-            print(f"scan_submodules('{modulename}')")
+            _printerr(f"scan_submodules('{modulename}')")
         module = importlib.import_module(modulename)  # turn str into module
         file_name = module.__file__
         if file_name is None:
@@ -86,3 +86,8 @@ class ArgumentParser(argparse.ArgumentParser):
             if not module_elem or not isinstance(module_elem, _type):
                 return True  # this is not a subcommand-shaped submodule
         return False
+
+
+def _printerr(*args, **kwargs):
+    kwargs['file'] = sys.stderr
+    print(*args, **kwargs)
