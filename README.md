@@ -59,6 +59,7 @@ That's all.
   First release
 - 1.1, 2024-01:  
   Error messages and trace messages go to stderr, not stdout.  
+  More informative messages when scanned modules are non-subcommand modules.
   Small improvements to documentation.  
   Added version history.
 - ...

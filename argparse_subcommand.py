@@ -40,16 +40,17 @@ class ArgumentParser(argparse.ArgumentParser):
             required_attrs = (('meaning', str), 
                               ('execute', functiontype), 
                               ('add_arguments', functiontype))
-            if self._misses_any_of(module, required_attrs):
+            whats_missing = self._whats_missing(module, required_attrs)
+            if whats_missing:
                 if strict:
-                    _printerr(f"{module_name} is not a proper subcommand module")
+                    _printerr(f"{module_name} is not a proper subcommand module: {whats_missing}")
                     sys.exit(1)
                 else:
                     if trace:
-                        _printerr(f"'{module_fullname}' is not a subcommand module")
+                        _printerr(f"'{module_fullname}' is not a subcommand module: {whats_missing}")
                     continue  # silently skip modules that are not proper subcommand modules
             if trace:
-                _printerr(f"'{module_fullname}' found")
+                _printerr(f"subcommand module '{module_fullname}' found")
             # ----- configure subcommand:
             self.subcommand_modules[subcommand_name] = module
             aliases = module.aliases if hasattr(module, 'aliases') else []
@@ -80,12 +81,14 @@ class ArgumentParser(argparse.ArgumentParser):
         self.subcommand_modules[args.subcommand].execute(args)
 
     @staticmethod
-    def _misses_any_of(module: moduletype, required: tg.Sequence[tg.Tuple[str, type]]) -> bool:
+    def _whats_missing(module: moduletype, required: tg.Sequence[tg.Tuple[str, type]]) -> str:
         for name, _type in required:
             module_elem = getattr(module, name, None)
-            if not module_elem or not isinstance(module_elem, _type):
-                return True  # this is not a subcommand-shaped submodule
-        return False
+            if not module_elem:
+                return f"attribute '{name}' is missing"  # module is not subcommand-shaped
+            if not isinstance(module_elem, _type):
+                return f"attribute '{name}' is of the wrong type"  # module is not subcommand-shaped
+        return ""  # nothing is missing, module is a subcommand module
 
 
 def _printerr(*args, **kwargs):
