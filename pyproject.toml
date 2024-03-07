@@ -22,6 +22,14 @@ include = ["README.md", "LICENSE", "pyproject.toml"]
 [tool.poetry.dependencies]
 python = "^3.7"
 
+# Release procedure:
+# - make changes
+# - test them
+# - change version in pyproject.toml
+# - describe version in README.md
+# - poetry build
+# - poetry publish
+#
 # for  poetry publish use
 # export POETRY_HTTP_BASIC_PYPI_USERNAME=<username>
 # export POETRY_HTTP_BASIC_PYPI_PASSWORD=<password>
