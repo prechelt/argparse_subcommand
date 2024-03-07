@@ -82,6 +82,11 @@ class ArgumentParser(argparse.ArgumentParser):
 
     @staticmethod
     def _whats_missing(module: moduletype, required: tg.Sequence[tg.Tuple[str, type]]) -> str:
+        """
+        Return an error message describing what is wrong with module before it could be
+        considered a subcommand module.
+        If nothing is wrong, return "".
+        """
         for name, _type in required:
             module_elem = getattr(module, name, None)
             if not module_elem:

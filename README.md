@@ -29,25 +29,29 @@ alternative names (e.g. an abbreviation).
 For use, create the parser as usual and then call the submodule scanner:
 
 ```
-parser = ap_sub.ArgumentParser(epilog=explanation)
-parser.scan("mysubcmds.subcmd1", "mysubcmds.subcmd2")  # or provide module object instead of str
-args = parser.parse_args()
-parser.execute_subcommand(args)  # or supply nothing, then parse_args() will be called internally
+def main(argv: list[str]):
+    parser = ap_sub.ArgumentParser(epilog=explanation)
+    parser.scan("mysubcmds.subcmd1", "mysubcmds.subcmd2")  # or provide module object instead of str
+    args = parser.parse_args(argv[1:])
+    parser.execute_subcommand(args)  # or supply nothing, then parse_args() will be called internally
+
+if __name__ == '__main__':
+  main(sys.argv)
 ```
 
 By convention, the subcommand modules (and only they) all go into a common package.
 If you do that, you can scan them all at once:
 
 ```
-parser.scan("mysubcmds.*")
+parser.scan("mysubcmds.*", strict=True)
 ```
 
 
 `argparse_subcommand` uses only one sub-parser group, so that
-subcommands cannot be nested, there is only one level of subcommands.
-It will execute `importlib.import_module()` on all modules mentioned in a `scan()` call as strings.   
+subcommands cannot be nested, there is only one level of subcommands.  
+It will execute `importlib.import_module()` on all modules mentioned in a `scan()` call as strings.     
 Multiple calls to `scan()` are allowed, each can have one or more arguments.  
-`scan(..., strict=True)` will exit when encountering a non-subcommand-module.  
+`scan(..., strict=False)` (the default) will ignore non-subcommand modules.  
 `scan(..., trace=True)` produces output helpful for debugging your subcommands setup.  
 
 
@@ -62,4 +66,6 @@ That's all.
   More informative messages when scanned modules are non-subcommand modules.
   Small improvements to documentation.  
   Added version history.
+- 1.2, 2024-03:
+  Better and clearer pattern for the main routine in the documentation.
 - ...
