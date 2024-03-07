@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "argparse_subcommand"
-version = "1.1"
+version = "1.2"
 description = "structure and simplify subcommand handling with argparse"
 license = "LICENSE"
 authors = ["Lutz Prechelt"]
@@ -9,9 +9,10 @@ homepage = "https://github.com/prechelt/argparse_subcommand"
 repository = "https://github.com/prechelt/argparse_subcommand"
 keywords = ["argparse"]
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
 ]
 packages = [
     { include = "*.py" },
