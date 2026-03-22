@@ -9,7 +9,7 @@ with underscore replaced by dash.
 
 To be a subcommand module, a module must have 
 
-```
+```py
 import argparse_subcommand as ap_sub
 
 meaning = "some help text for the subcommand"
@@ -19,7 +19,7 @@ def execute(args: ap_sub.Namespace): ...  # run the subcommand
 
 The module can also _optionally_ have:
 
-```
+```py
 aliases = ["subcmd-alias1", "subcmd-alias2"]  # optional.
 ```
 
@@ -28,7 +28,7 @@ alternative names (e.g. an abbreviation).
 
 For use, create the parser as usual and then call the submodule scanner:
 
-```
+```py
 def main(argv: list[str]):
     parser = ap_sub.ArgumentParser(epilog=explanation)
     parser.scan("mysubcmds.subcmd1", "mysubcmds.subcmd2")  # or provide module object instead of str
@@ -42,7 +42,7 @@ if __name__ == '__main__':
 By convention, the subcommand modules (and only they) all go into a common package.
 If you do that, you can scan them all at once:
 
-```
+```py
 parser.scan("mysubcmds.*", strict=True)
 ```
 
